@@ -11,12 +11,12 @@ https://ftleeapkwqztmvlawudk.supabase.co
 
 ### 2. NEXT_PUBLIC_SUPABASE_ANON_KEY (anon/public)
 ```
-eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ0bGVlYXBrd3F6dG12bGF3dWRrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjgyOTkwNDUsImV4cCI6MjA4Mzg3NTA0NX0.54bEht8R03nPv25QGCsrVcIpePXcO4HRLvruUCPqOis
+your-anon-key-here
 ```
 
 ### 3. SUPABASE_SERVICE_ROLE_KEY (service_role/secret)
 ```
-eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ0bGVlYXBrd3F6dG12bGF3dWRrIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc2ODI5OTA0NSwiZXhwIjoyMDgzODc1MDQ1fQ.oQdvVbrotMt80H_fZxsdcvgdLlNx5yEzbAT2Al1_YQc
+your-service-role-key-here
 ```
 
 ## 📋 Steps to Add in Vercel
@@ -33,12 +33,12 @@ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ0bGVlYXB
 
    **Variable 2:**
    - Key: `NEXT_PUBLIC_SUPABASE_ANON_KEY`
-   - Value: `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ0bGVlYXBrd3F6dG12bGF3dWRrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjgyOTkwNDUsImV4cCI6MjA4Mzg3NTA0NX0.54bEht8R03nPv25QGCsrVcIpePXcO4HRLvruUCPqOis`
+   - Value: `your-anon-key-here`
    - Environment: Select **ALL** (Production, Preview, Development)
 
    **Variable 3:**
    - Key: `SUPABASE_SERVICE_ROLE_KEY`
-   - Value: `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ0bGVlYXBrd3F6dG12bGF3dWRrIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc2ODI5OTA0NSwiZXhwIjoyMDgzODc1MDQ1fQ.oQdvVbrotMt80H_fZxsdcvgdLlNx5yEzbAT2Al1_YQc`
+   - Value: `your-service-role-key-here`
    - Environment: Select **ALL** (Production, Preview, Development)
 
 5. **Save** each variable

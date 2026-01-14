@@ -8,7 +8,7 @@ Maak een `.env.local` bestand in de root directory:
 
 ```env
 NEXT_PUBLIC_SUPABASE_URL=https://ftleeapkwqztmvlawudk.supabase.co
-NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ0bGVlYXBrd3F6dG12bGF3dWRrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjgyOTkwNDUsImV4cCI6MjA4Mzg3NTA0NX0.54bEht8R03nPv25QGCsrVcIpePXcO4HRLrVruUCPqOis
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key-here
 ```
 
 ### Voor Vercel Deployment
@@ -18,8 +18,8 @@ Voeg deze toe in Vercel Dashboard → Project Settings → Environment Variables
 #### Production Environment:
 ```
 NEXT_PUBLIC_SUPABASE_URL=https://ftleeapkwqztmvlawudk.supabase.co
-NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ0bGVlYXBrd3F6dG12bGF3dWRrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjgyOTkwNDUsImV4cCI6MjA4Mzg3NTA0NX0.54bEht8R03nPv25QGCsrVcIpePXcO4HRLrVruUCPqOis
-SUPABASE_SERVICE_ROLE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ0bGVlYXBrd3F6dG12bGF3dWRrIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc2ODI5OTA0NSwiZXhwIjoyMDgzODc1MDQ1fQ.oQdvVvrotMt80H_fZxsdcvgdLlNx5yEzbAT2Al1_YQc
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key-here
+SUPABASE_SERVICE_ROLE_KEY=your-service-role-key-here
 ```
 
 #### Preview Environment:
@@ -48,12 +48,12 @@ SUPABASE_SERVICE_ROLE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhY
 # VERPLICHT - Supabase Configuration
 # ============================================
 NEXT_PUBLIC_SUPABASE_URL=https://ftleeapkwqztmvlawudk.supabase.co
-NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ0bGVlYXBrd3F6dG12bGF3dWRrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjgyOTkwNDUsImV4cCI6MjA4Mzg3NTA0NX0.54bEht8R03nPv25QGCsrVcIpePXcO4HRLrVruUCPqOis
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key-here
 
 # ============================================
 # AANBEVOLEN - Service Role Key
 # ============================================
-SUPABASE_SERVICE_ROLE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ0bGVlYXBrd3F6dG12bGF3dWRrIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc2ODI5OTA0NSwiZXhwIjoyMDgzODc1MDQ1fQ.oQdvVvrotMt80H_fZxsdcvgdLlNx5yEzbAT2Al1_YQc
+SUPABASE_SERVICE_ROLE_KEY=your-service-role-key-here
 
 # ============================================
 # OPTIONEEL - Direct Database Access
@@ -62,7 +62,7 @@ POSTGRES_HOST=db.ftleeapkwqztmvlawudk.supabase.co
 POSTGRES_PORT=5432
 POSTGRES_DATABASE=postgres
 POSTGRES_USER=postgres
-POSTGRES_PASSWORD=Mydude12=34
+POSTGRES_PASSWORD=your-postgres-password-here
 ```
 
 ## ⚠️ Belangrijke Notities
