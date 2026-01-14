@@ -57,14 +57,14 @@ export function BTWVerwerkQuickAction({ clientId }: BTWVerwerkQuickActionProps) 
       setShowProcessDialog(true)
       
       // Show warning if no transactions found for this period
-      if (btwCalc.totalTransactions === 0) {
+      if ((btwCalc as any).totalTransactions === 0) {
         toast.warning("Geen transacties gevonden", {
           description: `Geen transacties gevonden voor Q${selectedQuarter} ${selectedYear}. Controleer of u het juiste jaar en kwartaal heeft geselecteerd.`,
           duration: 6000,
         })
-      } else if (btwCalc.transactionsWithBTW === 0 && btwCalc.totalTransactions > 0) {
+      } else if (btwCalc.transactionsWithBTW === 0 && (btwCalc as any).totalTransactions > 0) {
         toast.warning("Geen BTW codes toegewezen", {
-          description: `${btwCalc.totalTransactions} transactie(s) gevonden, maar geen met BTW codes. Wijs eerst BTW codes toe aan transacties.`,
+          description: `${(btwCalc as any).totalTransactions} transactie(s) gevonden, maar geen met BTW codes. Wijs eerst BTW codes toe aan transacties.`,
           duration: 5000,
         })
       }
@@ -101,7 +101,7 @@ export function BTWVerwerkQuickAction({ clientId }: BTWVerwerkQuickActionProps) 
 
       // Now mark as definitief (verwerkt)
       const updateResult = await updateBTWAangifteStatus(
-        saveResult.data.id,
+        (saveResult.data as any)?.id,
         clientId,
         "definitief"
       )

@@ -61,7 +61,7 @@ export default async function ClientDetailPage({ params }: { params: Promise<{ i
           <Breadcrumbs
             items={[
               { label: "Klanten", href: "/dashboard" },
-              { label: client.name },
+              { label: (client as any).name },
             ]}
           />
         </div>
@@ -74,18 +74,18 @@ export default async function ClientDetailPage({ params }: { params: Promise<{ i
             </div>
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-2 mb-2 flex-wrap">
-                <h1 className="text-2xl sm:text-3xl font-bold text-foreground truncate">{client.name}</h1>
+                <h1 className="text-2xl sm:text-3xl font-bold text-foreground truncate">{(client as any).name}</h1>
                 <Badge className="shrink-0">Actief</Badge>
               </div>
-              {client.company_name && (
+              {(client as any).company_name && (
                 <p className="text-base sm:text-lg text-muted-foreground mb-2 truncate">
-                  {client.company_name}
+                  {(client as any).company_name}
                 </p>
               )}
               <div className="flex flex-col gap-1 text-xs sm:text-sm text-muted-foreground">
-                {client.btw_number && <span className="truncate">BTW-nummer: {client.btw_number}</span>}
-                {client.email && <span className="truncate">E-mail: {client.email}</span>}
-                {client.phone && <span className="truncate">Telefoon: {client.phone}</span>}
+                {(client as any).btw_number && <span className="truncate">BTW-nummer: {(client as any).btw_number}</span>}
+                {(client as any).email && <span className="truncate">E-mail: {(client as any).email}</span>}
+                {(client as any).phone && <span className="truncate">Telefoon: {(client as any).phone}</span>}
               </div>
             </div>
           </div>
@@ -109,11 +109,11 @@ export default async function ClientDetailPage({ params }: { params: Promise<{ i
 
           <TabsContent value="overview" className="space-y-6">
             {/* Workflow Guide */}
-            <WorkflowGuide clientId={client.id} hasGrootboek={hasGrootboek} hasBoekingsregels={hasBoekingsregels} />
+            <WorkflowGuide clientId={(client as any).id} hasGrootboek={hasGrootboek} hasBoekingsregels={hasBoekingsregels} />
 
             {/* Quick Actions */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-              <Link href={`/dashboard/clients/${client.id}/grootboek`}>
+              <Link href={`/dashboard/clients/${(client as any).id}/grootboek`}>
                 <Card className="hover:shadow-md transition-shadow cursor-pointer">
                   <CardContent className="p-6 flex flex-col items-center text-center">
                     <div className="p-3 rounded-lg bg-primary/10 mb-3">
@@ -125,7 +125,7 @@ export default async function ClientDetailPage({ params }: { params: Promise<{ i
                 </Card>
               </Link>
 
-              <Link href={`/dashboard/clients/${client.id}/upload`}>
+              <Link href={`/dashboard/clients/${(client as any).id}/upload`}>
                 <Card className="hover:shadow-md transition-shadow cursor-pointer">
                   <CardContent className="p-6 flex flex-col items-center text-center">
                     <div className="p-3 rounded-lg bg-primary/10 mb-3">
@@ -137,7 +137,7 @@ export default async function ClientDetailPage({ params }: { params: Promise<{ i
                 </Card>
               </Link>
 
-              <Link href={`/dashboard/clients/${client.id}/btw`}>
+              <Link href={`/dashboard/clients/${(client as any).id}/btw`}>
                 <Card className="hover:shadow-md transition-shadow cursor-pointer">
                   <CardContent className="p-6 flex flex-col items-center text-center">
                     <div className="p-3 rounded-lg bg-primary/10 mb-3">
@@ -149,7 +149,7 @@ export default async function ClientDetailPage({ params }: { params: Promise<{ i
                 </Card>
               </Link>
 
-              <Link href={`/dashboard/clients/${client.id}/boekingsregels`}>
+              <Link href={`/dashboard/clients/${(client as any).id}/boekingsregels`}>
                 <Card className="hover:shadow-md transition-shadow cursor-pointer">
                   <CardContent className="p-6 flex flex-col items-center text-center">
                     <div className="p-3 rounded-lg bg-primary/10 mb-3">
@@ -212,13 +212,13 @@ export default async function ClientDetailPage({ params }: { params: Promise<{ i
                     Bekijk het grootboek schema of upload een nieuw bestand
                   </p>
                   <div className="flex gap-3">
-                    <Link href={`/dashboard/clients/${client.id}/grootboek`}>
+                    <Link href={`/dashboard/clients/${(client as any).id}/grootboek`}>
                       <Button>
                         <FileSpreadsheet className="w-4 h-4 mr-2" />
                         Bekijk Grootboek
                       </Button>
                     </Link>
-                    <Link href={`/dashboard/clients/${client.id}/upload`}>
+                    <Link href={`/dashboard/clients/${(client as any).id}/upload`}>
                       <Button variant="outline">
                         <Upload className="w-4 h-4 mr-2" />
                         Upload Grootboek
@@ -243,13 +243,13 @@ export default async function ClientDetailPage({ params }: { params: Promise<{ i
                     Bekijk alle boekingsregels of upload nieuwe transacties
                   </p>
                   <div className="flex gap-3">
-                    <Link href={`/dashboard/clients/${client.id}/boekingsregels`}>
+                    <Link href={`/dashboard/clients/${(client as any).id}/boekingsregels`}>
                       <Button>
                         <FileText className="w-4 h-4 mr-2" />
                         Bekijk Boekingsregels
                       </Button>
                     </Link>
-                    <Link href={`/dashboard/clients/${client.id}/upload`}>
+                    <Link href={`/dashboard/clients/${(client as any).id}/upload`}>
                       <Button variant="outline">
                         <Upload className="w-4 h-4 mr-2" />
                         Upload Transacties
@@ -273,7 +273,7 @@ export default async function ClientDetailPage({ params }: { params: Promise<{ i
                   <p className="text-muted-foreground text-center">
                     Bekijk de automatische BTW berekening voor deze klant
                   </p>
-                  <Link href={`/dashboard/clients/${client.id}/btw`}>
+                  <Link href={`/dashboard/clients/${(client as any).id}/btw`}>
                     <Button>
                       <TrendingUp className="w-4 h-4 mr-2" />
                       Bekijk BTW Aangifte

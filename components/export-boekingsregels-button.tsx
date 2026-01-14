@@ -16,9 +16,11 @@ interface ExportBoekingsregelsButtonProps {
     btw_bedrag: number | null
     factuurnummer: string | null
   }>
+  clientInfo?: any
 }
 
 export function ExportBoekingsregelsButton({ boekingsregels, clientInfo }: ExportBoekingsregelsButtonProps) {
+  // clientInfo is optional, handle gracefully
   const handleExport = () => {
     try {
       if (boekingsregels.length === 0) {

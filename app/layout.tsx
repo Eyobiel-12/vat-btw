@@ -6,13 +6,32 @@ import { ThemeProvider } from "@/components/theme-provider"
 import { Toaster } from "@/components/ui/sonner"
 import "./globals.css"
 
-const _geist = Geist({ subsets: ["latin"] })
-const _geistMono = Geist_Mono({ subsets: ["latin"] })
+// Optimize fonts with display swap for better performance
+const geist = Geist({
+  subsets: ["latin"],
+  display: "swap",
+  preload: true,
+  variable: "--font-geist",
+})
+
+const geistMono = Geist_Mono({
+  subsets: ["latin"],
+  display: "swap",
+  preload: false, // Only load when needed
+  variable: "--font-geist-mono",
+})
 
 export const metadata: Metadata = {
   title: "BTW Assist - Nederlandse Boekhoudondersteuning",
   description: "Professionele BTW berekening en grootboek beheer voor Nederlandse boekhouders",
   generator: "v0.app",
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://vat-btw.vercel.app"),
+  openGraph: {
+    title: "BTW Assist - Nederlandse Boekhoudondersteuning",
+    description: "Professionele BTW berekening en grootboek beheer voor Nederlandse boekhouders",
+    type: "website",
+    locale: "nl_NL",
+  },
   icons: {
     icon: [
       {
@@ -30,6 +49,18 @@ export const metadata: Metadata = {
     ],
     apple: "/apple-icon.png",
   },
+  // Performance optimizations
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
 }
 
 export default function RootLayout({
@@ -38,8 +69,8 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="nl" suppressHydrationWarning>
-      <body className={`font-sans antialiased`} suppressHydrationWarning>
+    <html lang="nl" suppressHydrationWarning className={`${geist.variable} ${geistMono.variable}`}>
+      <body className={`${geist.className} antialiased`} suppressHydrationWarning>
         <ThemeProvider
           defaultTheme="system"
           storageKey="btw-assist-theme"

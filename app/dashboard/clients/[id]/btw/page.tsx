@@ -170,15 +170,15 @@ export default async function BTWPage({
                   : `${currentYear}`
               }
               clientInfo={{
-                name: client.name,
-                company_name: client.company_name,
-                kvk_number: client.kvk_number,
-                btw_number: client.btw_number,
-                email: client.email,
-                phone: client.phone,
-                address: client.address,
-                city: client.city,
-                postal_code: client.postal_code,
+                name: (client as any).name,
+                company_name: (client as any).company_name,
+                kvk_number: (client as any).kvk_number,
+                btw_number: (client as any).btw_number,
+                email: (client as any).email,
+                phone: (client as any).phone,
+                address: (client as any).address,
+                city: (client as any).city,
+                postal_code: (client as any).postal_code,
               }}
               status={existingAangifte?.status as "concept" | "klaar" | "ingediend" | "definitief" | undefined}
             />

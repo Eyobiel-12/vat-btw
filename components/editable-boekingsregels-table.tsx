@@ -133,7 +133,7 @@ export function EditableBoekingsregelsTable({ boekingsregels, clientId }: Editab
       try {
         const account = await getGrootboekAccount(clientId, regel.account_number)
         if (account) {
-          setAccountType(account.account_type || null)
+          setAccountType((account as any).account_type || null)
         }
       } catch (error) {
         console.error("Error fetching account:", error)
@@ -150,12 +150,12 @@ export function EditableBoekingsregelsTable({ boekingsregels, clientId }: Editab
       try {
         const account = await getGrootboekAccount(clientId, editForm.account_number || "")
         if (account) {
-          setAccountType(account.account_type || null)
+          setAccountType((account as any).account_type || null)
           const baseAmount = (editForm.debet || 0) > 0 ? editForm.debet : (editForm.credit || 0)
           
           // Only suggest if there's an amount and no BTW code
-          if (baseAmount > 0 && (!editForm.btw_code || editForm.btw_code === "none")) {
-            const suggested = suggestBTWCode(account.account_type || null, editForm.omschrijving || "")
+          if ((baseAmount ?? 0) > 0 && (!editForm.btw_code || editForm.btw_code === "none")) {
+            const suggested = suggestBTWCode((account as any).account_type || null, editForm.omschrijving || "")
             if (suggested && suggested !== "geen") {
               setSuggestedBTWCode(suggested)
               setShowBTWConfirmDialog(true)
@@ -229,7 +229,7 @@ export function EditableBoekingsregelsTable({ boekingsregels, clientId }: Editab
   const handleDelete = async (id: string) => {
     setLoading(true)
     try {
-      const result = await deleteBoekingsregel(id)
+      const result = await deleteBoekingsregel(clientId, id)
 
       if (result?.error) {
         toast.error("Fout bij verwijderen", {
@@ -575,7 +575,7 @@ export function EditableBoekingsregelsTable({ boekingsregels, clientId }: Editab
                   {(editForm.debet || editForm.credit) && (
                     <p className="text-sm text-muted-foreground">
                       Bedrag: <span className="font-medium">
-                        € {formatDutchNumber((editForm.debet || 0) > 0 ? editForm.debet : editForm.credit)}
+                        € {formatDutchNumber((editForm.debet || 0) > 0 ? (editForm.debet ?? 0) : (editForm.credit ?? 0))}
                       </span>
                     </p>
                   )}

@@ -34,26 +34,28 @@ export default async function DashboardPage() {
         </div>
 
         {/* Header Section */}
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">
-          <div>
-            <h1 className="text-2xl sm:text-3xl font-bold text-foreground mb-2">Klanten</h1>
-            <p className="text-sm sm:text-base text-muted-foreground">
-              Beheer uw klanten en hun BTW-administratie
-            </p>
-          </div>
-          <div className="flex flex-col sm:flex-row gap-2 w-full md:w-auto">
-            <Link href="/dashboard/clients/new" className="w-full md:w-auto">
-              <Button size="lg" className="w-full md:w-auto">
-                <Plus className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
-                Nieuwe Klant
-              </Button>
-            </Link>
-            <Link href="/dashboard/clients/import" className="w-full md:w-auto">
-              <Button size="lg" variant="outline" className="w-full md:w-auto">
-                <FileText className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
-                Importeer Klanten
-              </Button>
-            </Link>
+        <div className="mb-8">
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
+            <div>
+              <h1 className="text-3xl sm:text-4xl font-bold text-foreground mb-2">Klanten Overzicht</h1>
+              <p className="text-base sm:text-lg text-muted-foreground">
+                Beheer uw klanten en hun BTW-administratie op één centrale plek
+              </p>
+            </div>
+            <div className="flex flex-col sm:flex-row gap-2 w-full md:w-auto">
+              <Link href="/dashboard/clients/new" className="w-full md:w-auto">
+                <Button size="lg" className="w-full md:w-auto bg-primary hover:bg-primary/90">
+                  <Plus className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
+                  Nieuwe Klant
+                </Button>
+              </Link>
+              <Link href="/dashboard/clients/import" className="w-full md:w-auto">
+                <Button size="lg" variant="outline" className="w-full md:w-auto border-border hover:bg-muted">
+                  <FileText className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
+                  Importeer Klanten
+                </Button>
+              </Link>
+            </div>
           </div>
         </div>
 
@@ -68,36 +70,42 @@ export default async function DashboardPage() {
           }
         >
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-            <Card>
+            <Card className="border-border/50 bg-card hover:shadow-md transition-all duration-200 hover:border-primary/30">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Totaal Klanten</CardTitle>
-                <Building2 className="w-4 h-4 text-muted-foreground" />
+                <CardTitle className="text-sm font-medium text-card-foreground">Totaal Klanten</CardTitle>
+                <div className="p-2 rounded-lg bg-primary/10">
+                  <Building2 className="w-4 h-4 text-primary" />
+                </div>
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold">{clients.length}</div>
-                <p className="text-xs text-muted-foreground mt-1">Actieve accounts</p>
+                <div className="text-3xl font-bold text-card-foreground mb-1">{clients.length}</div>
+                <p className="text-xs text-muted-foreground">Actieve klantenaccounts</p>
               </CardContent>
             </Card>
 
-            <Card>
+            <Card className="border-border/50 bg-card hover:shadow-md transition-all duration-200 hover:border-primary/30">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">BTW Aangiftes</CardTitle>
-                <FileText className="w-4 h-4 text-muted-foreground" />
+                <CardTitle className="text-sm font-medium text-card-foreground">BTW Aangiftes</CardTitle>
+                <div className="p-2 rounded-lg bg-primary/10">
+                  <FileText className="w-4 h-4 text-primary" />
+                </div>
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold">-</div>
-                <p className="text-xs text-muted-foreground mt-1">Bekijk per klant</p>
+                <div className="text-3xl font-bold text-card-foreground mb-1">-</div>
+                <p className="text-xs text-muted-foreground">Bekijk per klant</p>
               </CardContent>
             </Card>
 
-            <Card>
+            <Card className="border-border/50 bg-card hover:shadow-md transition-all duration-200 hover:border-primary/30">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Aankomende Deadlines</CardTitle>
-                <Calendar className="w-4 h-4 text-muted-foreground" />
+                <CardTitle className="text-sm font-medium text-card-foreground">Aankomende Deadlines</CardTitle>
+                <div className="p-2 rounded-lg bg-primary/10">
+                  <Calendar className="w-4 h-4 text-primary" />
+                </div>
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold">-</div>
-                <p className="text-xs text-muted-foreground mt-1">Bekijk per klant</p>
+                <div className="text-3xl font-bold text-card-foreground mb-1">-</div>
+                <p className="text-xs text-muted-foreground">Bekijk per klant</p>
               </CardContent>
             </Card>
           </div>
@@ -113,64 +121,94 @@ export default async function DashboardPage() {
             </div>
           }
         >
-          <div className="space-y-4">
-            {clients.map((client) => (
-            <Card
-              key={client.id}
-              className="hover:shadow-lg transition-all duration-200 border-border/50 hover:border-primary/50 bg-card"
-            >
-              <CardContent className="p-4 sm:p-6">
-                <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
-                  <Link
-                    href={`/dashboard/clients/${client.id}`}
-                    className="flex items-start gap-4 flex-1 hover:opacity-80 transition-opacity"
-                  >
-                    <div className="p-3 rounded-lg bg-primary/10 shrink-0">
-                      <Building2 className="w-5 h-5 sm:w-6 sm:h-6 text-primary" />
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-2 mb-1 flex-wrap">
-                        <h3 className="text-base sm:text-lg font-semibold text-foreground truncate">
-                          {client.name}
-                        </h3>
-                        <Badge variant="default" className="shrink-0">Actief</Badge>
-                      </div>
-                      {client.company_name && (
-                        <p className="text-sm text-muted-foreground mb-2 truncate">
-                          {client.company_name}
-                        </p>
-                      )}
-                      <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-4 text-xs sm:text-sm text-muted-foreground">
-                        {client.btw_number && (
-                          <span className="truncate">BTW: {client.btw_number}</span>
-                        )}
-                        {client.btw_number && <span className="hidden sm:inline">•</span>}
-                        <span className="truncate">
-                          Laatste update: {new Date(client.updated_at).toLocaleDateString("nl-NL")}
-                        </span>
-                      </div>
-                    </div>
-                  </Link>
+          {clients.length > 0 ? (
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+              {clients.map((client: any) => (
+                <Card
+                  key={client.id}
+                  className="hover:shadow-lg transition-all duration-200 border-border/50 hover:border-primary/50 bg-card group"
+                >
+                  <CardContent className="p-5 sm:p-6">
+                    <div className="flex flex-col gap-4">
+                      <Link
+                        href={`/dashboard/clients/${client.id}`}
+                        className="flex items-start gap-4 flex-1 hover:opacity-80 transition-opacity"
+                      >
+                        <div className="p-3 rounded-xl bg-primary/10 group-hover:bg-primary/20 transition-colors shrink-0">
+                          <Building2 className="w-6 h-6 text-primary" />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-2 mb-2 flex-wrap">
+                            <h3 className="text-lg sm:text-xl font-semibold text-foreground truncate">
+                              {client.name}
+                            </h3>
+                            <Badge variant="default" className="shrink-0 bg-green-500/10 text-green-700 dark:text-green-400 border-green-500/20">
+                              Actief
+                            </Badge>
+                          </div>
+                          {client.company_name && (
+                            <p className="text-sm text-muted-foreground mb-3 truncate font-medium">
+                              {client.company_name}
+                            </p>
+                          )}
+                          <div className="flex flex-col sm:flex-row sm:items-center gap-2 text-xs sm:text-sm text-muted-foreground">
+                            {client.btw_number && (
+                              <span className="truncate flex items-center gap-1">
+                                <span className="font-medium">BTW:</span> {client.btw_number}
+                              </span>
+                            )}
+                            {client.btw_number && <span className="hidden sm:inline text-muted-foreground/50">•</span>}
+                            <span className="truncate">
+                              Laatste update: {new Date(client.updated_at).toLocaleDateString("nl-NL", {
+                                day: "numeric",
+                                month: "long",
+                                year: "numeric"
+                              })}
+                            </span>
+                          </div>
+                        </div>
+                      </Link>
 
-                  <div className="flex flex-col sm:flex-row gap-2 lg:flex-col lg:items-end shrink-0">
-                    <Link href={`/dashboard/clients/${client.id}`} className="w-full sm:w-auto">
-                      <Button variant="outline" className="w-full sm:w-auto">
-                        <FileText className="w-4 h-4 mr-2" />
-                        Beheren
-                      </Button>
-                    </Link>
-                    <Link href={`/dashboard/clients/${client.id}/btw`} className="w-full sm:w-auto">
-                      <Button className="w-full sm:w-auto">
-                        <TrendingUp className="w-4 h-4 mr-2" />
-                        BTW Aangifte
-                      </Button>
-                    </Link>
-                  </div>
+                      <div className="flex flex-col sm:flex-row gap-2 pt-2 border-t border-border/50">
+                        <Link href={`/dashboard/clients/${client.id}`} className="flex-1">
+                          <Button variant="outline" className="w-full border-border hover:bg-muted">
+                            <FileText className="w-4 h-4 mr-2" />
+                            Beheren
+                          </Button>
+                        </Link>
+                        <Link href={`/dashboard/clients/${client.id}/btw`} className="flex-1">
+                          <Button className="w-full bg-primary hover:bg-primary/90">
+                            <TrendingUp className="w-4 h-4 mr-2" />
+                            BTW Aangifte
+                          </Button>
+                        </Link>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          ) : (
+            <Card className="py-12 sm:py-16 border-dashed border-border/50">
+              <CardContent className="flex flex-col items-center justify-center text-center px-4">
+                <div className="p-4 rounded-full bg-primary/10 mb-4">
+                  <Building2 className="w-12 h-12 sm:w-16 sm:h-16 text-primary" />
                 </div>
+                <h3 className="text-lg sm:text-xl font-semibold text-foreground mb-2">
+                  Nog geen klanten
+                </h3>
+                <p className="text-sm sm:text-base text-muted-foreground mb-6 max-w-md">
+                  Begin met het toevoegen van uw eerste klant om hun BTW-administratie te beheren
+                </p>
+                <Link href="/dashboard/clients/new">
+                  <Button size="lg" className="w-full sm:w-auto bg-primary hover:bg-primary/90">
+                    <Plus className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
+                    Eerste Klant Toevoegen
+                  </Button>
+                </Link>
               </CardContent>
             </Card>
-          ))}
-          </div>
+          )}
         </Suspense>
 
         {/* Empty State (show when no clients) */}

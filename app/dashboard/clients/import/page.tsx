@@ -140,13 +140,13 @@ export default function ImportClientsPage() {
         })
       } else {
         setImportResult({
-          imported: result.imported || 0,
-          errors: result.errors,
-          errorsList: result.errorsList,
+          imported: (result as any).imported || 0,
+          errors: (result as any).errors,
+          errorsList: (result as any).errorsList,
         })
 
         toast.success("Import voltooid!", {
-          description: `${result.imported || 0} klanten succesvol geïmporteerd.`,
+          description: `${(result as any).imported || 0} klanten succesvol geïmporteerd.`,
         })
 
         // Redirect after 2 seconds

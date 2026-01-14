@@ -32,7 +32,7 @@ export async function signUp(formData: FormData) {
       id: data.user.id,
       email: email,
       full_name: fullName,
-    })
+    } as any)
 
     if (profileError) {
       console.error("Profile creation error:", profileError)

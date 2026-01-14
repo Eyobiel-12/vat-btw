@@ -765,7 +765,7 @@ export default function UploadPage({ params }: { params: Promise<{ id: string }>
           setCurrentStep("Data wordt geïmporteerd...")
           
           // Import to database
-          const importResult = await importBoekingsregelsFromCSV(clientId, regels)
+          const importResult = await importBoekingsregelsFromCSV(clientId, regels as any)
           
           if (importResult.error) {
             clearInterval(progressInterval)

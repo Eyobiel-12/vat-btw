@@ -50,7 +50,7 @@ export default function NewClientPage() {
       })
       // Redirect to client detail page after 1 second
       setTimeout(() => {
-        router.push(`/dashboard/clients/${result.data.id}`)
+        router.push(`/dashboard/clients/${(result.data as any)?.id}`)
         router.refresh()
       }, 1000)
     }

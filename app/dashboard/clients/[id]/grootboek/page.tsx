@@ -63,7 +63,7 @@ export default async function GrootboekPage({ params }: { params: Promise<{ id: 
           <Card>
             <CardContent className="p-4">
               <div className="text-2xl font-bold text-foreground">
-                {grootboekData.filter((g) => g.account_type === "activa").length}
+                {grootboekData.filter((g: any) => g.account_type === "activa").length}
               </div>
               <p className="text-sm text-muted-foreground">Activa</p>
             </CardContent>
@@ -71,14 +71,14 @@ export default async function GrootboekPage({ params }: { params: Promise<{ id: 
           <Card>
             <CardContent className="p-4">
               <div className="text-2xl font-bold text-foreground">
-                {grootboekData.filter((g) => g.account_type === "passiva").length}
+                {grootboekData.filter((g: any) => g.account_type === "passiva").length}
               </div>
               <p className="text-sm text-muted-foreground">Passiva</p>
             </CardContent>
           </Card>
           <Card>
             <CardContent className="p-4">
-              <div className="text-2xl font-bold text-foreground">{grootboekData.filter((g) => g.btw_code).length}</div>
+              <div className="text-2xl font-bold text-foreground">{grootboekData.filter((g: any) => g.btw_code).length}</div>
               <p className="text-sm text-muted-foreground">Met BTW-code</p>
             </CardContent>
           </Card>
@@ -121,7 +121,7 @@ export default async function GrootboekPage({ params }: { params: Promise<{ id: 
                       </TableCell>
                     </TableRow>
                   ) : (
-                    grootboekData.map((item) => (
+                    grootboekData.map((item: any) => (
                       <TableRow key={item.id} className="hover:bg-muted/50">
                         <TableCell className="font-mono font-semibold">{item.account_number}</TableCell>
                         <TableCell>{item.account_name}</TableCell>

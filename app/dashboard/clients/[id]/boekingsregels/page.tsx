@@ -66,9 +66,10 @@ export default async function BoekingsregelsPage({ params }: { params: Promise<{
     notFound()
   }
   
-  const boekingsregels = await getBoekingsregels(id)
-  const totalDebet = boekingsregels.reduce((sum, regel) => sum + Number(regel.debet || 0), 0)
-  const totalCredit = boekingsregels.reduce((sum, regel) => sum + Number(regel.credit || 0), 0)
+  const boekingsregelsResult = await getBoekingsregels(id)
+  const boekingsregels = Array.isArray(boekingsregelsResult) ? boekingsregelsResult : []
+  const totalDebet = boekingsregels.reduce((sum: number, regel: any) => sum + Number(regel.debet || 0), 0)
+  const totalCredit = boekingsregels.reduce((sum: number, regel: any) => sum + Number(regel.credit || 0), 0)
 
   return (
     <div className="min-h-screen bg-background">
@@ -94,18 +95,7 @@ export default async function BoekingsregelsPage({ params }: { params: Promise<{
           </div>
           <div className="flex flex-col sm:flex-row gap-2 shrink-0">
             <ExportBoekingsregelsButton 
-              boekingsregels={boekingsregels}
-              clientInfo={{
-                name: client.name,
-                company_name: client.company_name,
-                kvk_number: client.kvk_number,
-                btw_number: client.btw_number,
-                email: client.email,
-                phone: client.phone,
-                address: client.address,
-                city: client.city,
-                postal_code: client.postal_code,
-              }}
+              boekingsregels={boekingsregels as any}
             />
             <Link href={`/dashboard/clients/${id}/boekingsregels/new`} className="w-full sm:w-auto">
               <Button variant="outline" className="w-full sm:w-auto">

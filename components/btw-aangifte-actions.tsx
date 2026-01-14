@@ -82,7 +82,7 @@ export function BTWAangifteActions({
         }
         // Now mark as ready
         const updateResult = await updateBTWAangifteStatus(
-          saveResult.data.id,
+          (saveResult.data as any)?.id,
           clientId,
           "definitief"
         )
@@ -142,7 +142,7 @@ export function BTWAangifteActions({
         }
         // Now process (mark as definitief)
         const updateResult = await updateBTWAangifteStatus(
-          saveResult.data.id,
+          (saveResult.data as any)?.id,
           clientId,
           "definitief"
         )

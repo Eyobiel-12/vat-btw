@@ -43,7 +43,7 @@ export async function createBoekingsregel(clientId: string, formData: FormData) 
       .eq("account_number", accountNumber)
       .single()
     
-    accountType = account?.account_type
+    accountType = (account as any)?.account_type
   }
 
   // Auto-calculate BTW if not provided but BTW code exists
@@ -86,7 +86,7 @@ export async function createBoekingsregel(clientId: string, formData: FormData) 
     }
   }
 
-  const { error } = await supabase.from("boekingsregels").insert(regelData)
+  const { error } = await supabase.from("boekingsregels").insert(regelData as any)
 
   if (error) return { error: error.message }
 
@@ -118,7 +118,7 @@ export async function updateBoekingsregel(regelId: string, clientId: string, for
     jaar: boekdatum.getFullYear(),
   }
 
-  const { error } = await supabase.from("boekingsregels").update(regelData).eq("id", regelId)
+  const { error } = await supabase.from("boekingsregels").update(regelData as any).eq("id", regelId)
 
   if (error) return { error: error.message }
 
