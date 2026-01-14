@@ -54,7 +54,7 @@ export async function createGrootboekAccount(clientId: string, formData: FormDat
     description: (formData.get("description") as string) || null,
   }
 
-  const { error } = await supabase.from("grootboek_accounts").insert(accountData)
+  const { error } = await (supabase.from("grootboek_accounts") as any).insert(accountData)
 
   if (error) return { error: error.message }
 
@@ -75,7 +75,7 @@ export async function updateGrootboekAccount(accountId: string, clientId: string
     description: (formData.get("description") as string) || null,
   }
 
-  const { error } = await supabase.from("grootboek_accounts").update(accountData).eq("id", accountId)
+  const { error } = await (supabase.from("grootboek_accounts") as any).update(accountData).eq("id", accountId)
 
   if (error) return { error: error.message }
 
@@ -108,7 +108,7 @@ export async function importGrootboekFromCSV(clientId: string, accounts: InsertT
     client_id: clientId,
   }))
 
-  const { data, error } = await supabase.from("grootboek_accounts").upsert(accountsWithClientId, {
+  const { data, error } = await (supabase.from("grootboek_accounts") as any).upsert(accountsWithClientId, {
     onConflict: "client_id,account_number",
     ignoreDuplicates: false,
   })
@@ -116,7 +116,7 @@ export async function importGrootboekFromCSV(clientId: string, accounts: InsertT
   if (error) return { error: error.message }
 
   // Log the upload
-  await supabase.from("upload_logs").insert({
+  await (supabase.from("upload_logs") as any).insert({
     client_id: clientId,
     user_id: user.id,
     file_name: "grootboek_import.csv",

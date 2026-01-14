@@ -40,9 +40,9 @@ export async function extractTextFromImage(imageFile: File): Promise<string> {
     
     // Set parameters for better accuracy
     await worker.setParameters({
-      tessedit_pageseg_mode: '1', // Automatic page segmentation with OSD
+      tessedit_pageseg_mode: 1 as any, // Automatic page segmentation with OSD
       tessedit_char_whitelist: '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz€.,-/:() ',
-    })
+    } as any)
     
     const { data } = await worker.recognize(imageFile)
     await worker.terminate()

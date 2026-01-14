@@ -233,7 +233,7 @@ export function parseGrootboekExcel(
           }
 
           // Create account object
-          const account: InsertTables<'grootboek_accounts'> = {
+          const account: any = {
             account_number: String(accountNumber).trim(),
             account_name: String(normalizedRow.account_name).trim(),
             account_type: accountType || 'kosten',
@@ -525,7 +525,7 @@ export function parseBoekingsregelsExcel(
 
           const btwBedrag = parseNumber(normalizedRow.btw_bedrag)
 
-          const regel: InsertTables<'boekingsregels'> = {
+          const regel: any = {
             boekdatum: boekdatum.toISOString().split('T')[0],
             account_number: String(normalizedRow.account_number).trim(),
             omschrijving: String(normalizedRow.omschrijving).trim(),

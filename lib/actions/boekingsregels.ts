@@ -86,7 +86,7 @@ export async function createBoekingsregel(clientId: string, formData: FormData) 
     }
   }
 
-  const { error } = await supabase.from("boekingsregels").insert(regelData as any)
+  const { error } = await (supabase.from("boekingsregels") as any).insert(regelData)
 
   if (error) return { error: error.message }
 
@@ -118,7 +118,7 @@ export async function updateBoekingsregel(regelId: string, clientId: string, for
     jaar: boekdatum.getFullYear(),
   }
 
-  const { error } = await supabase.from("boekingsregels").update(regelData as any).eq("id", regelId)
+  const { error } = await (supabase.from("boekingsregels") as any).update(regelData).eq("id", regelId)
 
   if (error) return { error: error.message }
 
@@ -156,12 +156,12 @@ export async function importBoekingsregelsFromCSV(clientId: string, regels: Inse
     }
   })
 
-  const { error } = await supabase.from("boekingsregels").insert(regelsWithClientId)
+  const { error } = await (supabase.from("boekingsregels") as any).insert(regelsWithClientId)
 
   if (error) return { error: error.message }
 
   // Log the upload
-  await supabase.from("upload_logs").insert({
+  await (supabase.from("upload_logs") as any).insert({
     client_id: clientId,
     user_id: user.id,
     file_name: "boekingsregels_import.csv",

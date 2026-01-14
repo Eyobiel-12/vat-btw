@@ -57,7 +57,7 @@ export async function calculateBTW(
 
   const { data: allRegels } = await allQuery
   const totalTransactions = allRegels?.length || 0
-  const transactionsWithBTW = allRegels?.filter((r) => r.btw_code).length || 0
+  const transactionsWithBTW = allRegels?.filter((r: any) => r.btw_code).length || 0
 
   // Get boekingsregels for the period WITH BTW codes (for calculation)
   let query = supabase
@@ -110,75 +110,76 @@ export async function calculateBTW(
   for (const regel of boekingsregels || []) {
     // Determine base amount: for omzet (credit) or kosten (debet)
     // BTW verschuldigd is on credit side (omzet), voorbelasting is on debet side (kosten)
-    const baseAmount = regel.credit > 0 ? regel.credit : regel.debet
-    const btwBedrag = regel.btw_bedrag || 0
+    const regelAny = regel as any
+    const baseAmount = regelAny.credit > 0 ? regelAny.credit : regelAny.debet
+    const btwBedrag = regelAny.btw_bedrag || 0
 
     // Skip if no BTW code or base amount is zero
-    if (!regel.btw_code || baseAmount === 0) continue
+    if (!regelAny.btw_code || baseAmount === 0) continue
 
-    switch (regel.btw_code) {
+    switch (regelAny.btw_code) {
       case "1a":
         // Verschuldigd BTW hoog - typically on credit (omzet)
-        if (regel.credit > 0) {
+        if (regelAny.credit > 0) {
           result.rubriek_1a_omzet += baseAmount
           result.rubriek_1a_btw += Math.abs(btwBedrag)
         }
         break
       case "1b":
         // Verschuldigd BTW laag - typically on credit (omzet)
-        if (regel.credit > 0) {
+        if (regelAny.credit > 0) {
           result.rubriek_1b_omzet += baseAmount
           result.rubriek_1b_btw += Math.abs(btwBedrag)
         }
         break
       case "1c":
         // Verschuldigd BTW overig - typically on credit (omzet)
-        if (regel.credit > 0) {
+        if (regelAny.credit > 0) {
           result.rubriek_1c_omzet += baseAmount
           result.rubriek_1c_btw += Math.abs(btwBedrag)
         }
         break
       case "1d":
         // Privégebruik - typically on credit
-        if (regel.credit > 0) {
+        if (regelAny.credit > 0) {
           result.rubriek_1d_omzet += baseAmount
           result.rubriek_1d_btw += Math.abs(btwBedrag)
         }
         break
       case "1e":
         // Vrijgestelde omzet - typically on credit
-        if (regel.credit > 0) {
+        if (regelAny.credit > 0) {
           result.rubriek_1e_omzet += baseAmount
         }
         break
       case "2a":
         // Export buiten EU - typically on credit
-        if (regel.credit > 0) {
+        if (regelAny.credit > 0) {
           result.rubriek_2a_omzet += baseAmount
         }
         break
       case "3a":
         // Intracommunautaire leveringen - typically on credit
-        if (regel.credit > 0) {
+        if (regelAny.credit > 0) {
           result.rubriek_3a_omzet += baseAmount
         }
         break
       case "3b":
         // Intracommunautaire diensten - typically on credit
-        if (regel.credit > 0) {
+        if (regelAny.credit > 0) {
           result.rubriek_3b_omzet += baseAmount
         }
         break
       case "4a":
         // Verwervingen binnen EU - typically on debet (inkopen)
-        if (regel.debet > 0) {
+        if (regelAny.debet > 0) {
           result.rubriek_4a_omzet += baseAmount
           result.rubriek_4a_btw += Math.abs(btwBedrag)
         }
         break
       case "4b":
         // Import buiten EU - typically on debet (inkopen)
-        if (regel.debet > 0) {
+        if (regelAny.debet > 0) {
           result.rubriek_4b_omzet += baseAmount
           result.rubriek_4b_btw += Math.abs(btwBedrag)
         }
@@ -186,13 +187,13 @@ export async function calculateBTW(
       case "5b":
       case "5b-laag":
         // Voorbelasting - typically on debet (kosten/inkopen)
-        if (regel.debet > 0) {
+        if (regelAny.debet > 0) {
           result.rubriek_5b_btw += Math.abs(btwBedrag)
           // Track grondslag: debet is usually the expense amount (grondslag)
           // If btw_bedrag is separate, then debet = grondslag, total = debet + btw_bedrag
           // For voorbelasting entries, the debet typically represents the base amount (grondslag)
           // and btw_bedrag is the BTW on top of that
-          const grondslag = regel.debet // Debet is the base expense amount
+          const grondslag = regelAny.debet // Debet is the base expense amount
           result.rubriek_5b_grondslag = (result.rubriek_5b_grondslag || 0) + grondslag
         }
         break
@@ -244,8 +245,8 @@ export async function saveBTWAangifte(
     status: "concept",
   }
 
-  const { data, error } = await supabase
-    .from("btw_aangiftes")
+  const { data, error } = await (supabase
+    .from("btw_aangiftes") as any)
     .upsert(aangifteData, {
       onConflict: "client_id,periode_type,periode,jaar",
     })
@@ -289,7 +290,7 @@ export async function updateBTWAangifteStatus(
     updateData.ingediend_op = new Date().toISOString()
   }
 
-  const { error } = await supabase.from("btw_aangiftes").update(updateData).eq("id", aangifteId)
+  const { error } = await (supabase.from("btw_aangiftes") as any).update(updateData).eq("id", aangifteId)
 
   if (error) return { error: error.message }
 

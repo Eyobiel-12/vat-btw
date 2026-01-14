@@ -80,7 +80,7 @@ export async function createClient(formData: FormData) {
     return { error: "Naam is verplicht" }
   }
 
-  const clientData: InsertTables<"clients"> = {
+  const clientData = {
     user_id: user.id,
     name,
     company_name,
@@ -93,7 +93,7 @@ export async function createClient(formData: FormData) {
     country,
   }
 
-  const { data, error } = await supabase.from("clients").insert(clientData).select().single()
+  const { data, error } = await (supabase.from("clients") as any).insert(clientData).select().single()
 
   if (error) {
     if (error.code === "23505") {
@@ -131,7 +131,7 @@ export async function updateClient(clientId: string, formData: FormData) {
     return { error: "Naam is verplicht" }
   }
 
-  const updateData: UpdateTables<"clients"> = {
+  const updateData = {
     name,
     company_name,
     btw_number,
@@ -143,8 +143,8 @@ export async function updateClient(clientId: string, formData: FormData) {
     country,
   }
 
-  const { data, error } = await supabase
-    .from("clients")
+  const { data, error } = await (supabase
+    .from("clients") as any)
     .update(updateData)
     .eq("id", clientId)
     .eq("user_id", user.id)
@@ -178,8 +178,8 @@ export async function bulkImportClients(clientsData: Array<Omit<InsertTables<"cl
   }))
 
   // Use upsert to handle duplicates based on name
-  const { data, error } = await supabase
-    .from("clients")
+  const { data, error } = await (supabase
+    .from("clients") as any)
     .upsert(clientsWithUserId, {
       onConflict: "name",
       ignoreDuplicates: false,
@@ -192,7 +192,7 @@ export async function bulkImportClients(clientsData: Array<Omit<InsertTables<"cl
 
   // Log the import activity
   if (data && data.length > 0) {
-    await supabase.from("upload_logs").insert({
+    await (supabase.from("upload_logs") as any).insert({
       user_id: user.id,
       client_id: null,
       upload_type: "client_import",
