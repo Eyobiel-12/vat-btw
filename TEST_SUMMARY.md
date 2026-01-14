@@ -4,7 +4,7 @@
 
 ### Test Credentials
 - **Email**: Eyobielgoitom10@gmail.com
-- **Password**: Mydude12=
+- **Password**: your-password-here
 
 ---
 

@@ -5,7 +5,7 @@ January 2026
 
 ## Test Credentials
 - **Email**: Eyobielgoitom10@gmail.com
-- **Password**: Mydude12=
+- **Password**: your-password-here
 
 ## Test Scenario: Complete Bookkeeper Workflow
 
