@@ -718,14 +718,31 @@ export default function UploadPage({ params }: { params: Promise<{ id: string }>
         setCurrentStep("Factuur wordt gescand (OCR)...")
         
         try {
+          // Check if we're in browser (client-side only)
+          if (typeof window === 'undefined') {
+            throw new Error('OCR werkt alleen in de browser. Upload facturen via de web interface.')
+          }
+
           // Import OCR functions dynamically (client-side only)
-          const { processInvoiceFile, convertInvoiceToBoekingsregels } = await import("@/lib/utils/invoice-ocr")
+          let processInvoiceFile, convertInvoiceToBoekingsregels
+          try {
+            const ocrModule = await import("@/lib/utils/invoice-ocr")
+            processInvoiceFile = ocrModule.processInvoiceFile
+            convertInvoiceToBoekingsregels = ocrModule.convertInvoiceToBoekingsregels
+          } catch (importError: any) {
+            throw new Error(`OCR module kon niet worden geladen: ${importError.message || 'Onbekende fout'}. Probeer de pagina te verversen.`)
+          }
           
           setUploadProgress(50)
           setCurrentStep("Data wordt geëxtraheerd...")
           
-          // Process invoice
-          const extractedData = await processInvoiceFile(file)
+          // Process invoice with timeout
+          const extractedData = await Promise.race([
+            processInvoiceFile(file),
+            new Promise<never>((_, reject) => 
+              setTimeout(() => reject(new Error('OCR duurde te lang. Probeer een kleinere of duidelijkere afbeelding.')), 60000)
+            )
+          ])
           
           setUploadProgress(70)
           setCurrentStep("Boekingsregels worden aangemaakt...")

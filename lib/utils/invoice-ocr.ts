@@ -26,40 +26,76 @@ export interface ExtractedInvoiceData {
  * Extract text from image using OCR
  */
 export async function extractTextFromImage(imageFile: File): Promise<string> {
+  // Check if we're in browser environment
+  if (typeof window === 'undefined') {
+    throw new Error('OCR werkt alleen in de browser. Upload facturen via de web interface.')
+  }
+
   let worker
   try {
     // Create worker with Dutch language and better settings
-    worker = await createWorker("nld", 1, {
-      logger: (m) => {
-        // Only log progress in development
-        if (process.env.NODE_ENV === 'development' && m.status === 'recognizing text') {
-          console.log(`OCR Progress: ${Math.round(m.progress * 100)}%`)
+    // Use 'eng' as fallback if 'nld' fails
+    try {
+      worker = await createWorker("nld", 1, {
+        logger: (m) => {
+          // Only log progress in development
+          if (process.env.NODE_ENV === 'development' && m.status === 'recognizing text') {
+            console.log(`OCR Progress: ${Math.round(m.progress * 100)}%`)
+          }
         }
-      }
-    })
+      })
+    } catch (langError) {
+      // Fallback to English if Dutch language pack not available
+      console.warn('Dutch OCR language pack not available, using English:', langError)
+      worker = await createWorker("eng", 1, {
+        logger: (m) => {
+          if (process.env.NODE_ENV === 'development' && m.status === 'recognizing text') {
+            console.log(`OCR Progress: ${Math.round(m.progress * 100)}%`)
+          }
+        }
+      })
+    }
     
     // Set parameters for better accuracy
-    await worker.setParameters({
-      tessedit_pageseg_mode: 1 as any, // Automatic page segmentation with OSD
-      tessedit_char_whitelist: '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz€.,-/:() ',
-    } as any)
+    try {
+      await worker.setParameters({
+        tessedit_pageseg_mode: 1 as any, // Automatic page segmentation with OSD
+        tessedit_char_whitelist: '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz€.,-/:() ',
+      } as any)
+    } catch (paramError) {
+      // Parameters are optional, continue without them
+      console.warn('Could not set OCR parameters:', paramError)
+    }
     
     const { data } = await worker.recognize(imageFile)
     await worker.terminate()
     
-    if (!data.text || data.text.trim().length < 10) {
+    if (!data || !data.text || data.text.trim().length < 10) {
       throw new Error('OCR kon geen tekst extraheren uit de afbeelding. Zorg ervoor dat de afbeelding duidelijk en leesbaar is.')
     }
     
     return data.text
   } catch (error: any) {
     if (worker) {
-      await worker.terminate()
+      try {
+        await worker.terminate()
+      } catch (terminateError) {
+        // Ignore termination errors
+        console.warn('Error terminating OCR worker:', terminateError)
+      }
+    }
+    
+    // Provide more helpful error messages
+    if (error.message && error.message.includes('language')) {
+      throw new Error('OCR taalpakket niet beschikbaar. Probeer de pagina te verversen of gebruik een andere browser.')
+    }
+    if (error.message && error.message.includes('worker')) {
+      throw new Error('OCR worker kon niet worden gestart. Probeer de pagina te verversen.')
     }
     if (error.message) {
       throw error
     }
-    throw new Error(`OCR fout: ${error.message || 'Onbekende fout bij tekst extractie'}`)
+    throw new Error(`OCR fout: ${error.message || 'Onbekende fout bij tekst extractie. Probeer een duidelijkere afbeelding.'}`)
   }
 }
 
