@@ -31,6 +31,7 @@ CREATE TABLE IF NOT EXISTS public.clients (
   address TEXT,
   postal_code TEXT,
   city TEXT,
+  country TEXT DEFAULT 'Nederland',
   email TEXT,
   phone TEXT,
   notes TEXT,
