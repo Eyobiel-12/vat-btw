@@ -124,6 +124,7 @@ CREATE TABLE IF NOT EXISTS public.btw_aangiftes (
   rubriek_4b_btw DECIMAL(15,2) DEFAULT 0,
   rubriek_5a_btw DECIMAL(15,2) DEFAULT 0,
   rubriek_5b_btw DECIMAL(15,2) DEFAULT 0,
+  rubriek_5b_grondslag DECIMAL(15,2) DEFAULT 0,
   rubriek_5c_btw DECIMAL(15,2) DEFAULT 0,
   rubriek_5d_btw DECIMAL(15,2) DEFAULT 0,
   rubriek_5e_btw DECIMAL(15,2) DEFAULT 0,
