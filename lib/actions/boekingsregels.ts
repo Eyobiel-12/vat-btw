@@ -102,6 +102,18 @@ export async function updateBoekingsregel(regelId: string, clientId: string, for
 
   const boekdatum = new Date(formData.get("boekdatum") as string)
 
+  // Verify the regel belongs to the client (security check)
+  const { data: regel, error: checkError } = await supabase
+    .from("boekingsregels")
+    .select("id, client_id")
+    .eq("id", regelId)
+    .eq("client_id", clientId)
+    .single()
+
+  if (checkError || !regel) {
+    return { error: "Transactie niet gevonden of geen toegang" }
+  }
+
   const regelData: UpdateTables<"boekingsregels"> = {
     boekstuk_nummer: (formData.get("boekstuk_nummer") as string) || null,
     boekdatum: formData.get("boekdatum") as string,
@@ -120,7 +132,10 @@ export async function updateBoekingsregel(regelId: string, clientId: string, for
 
   const { error } = await (supabase.from("boekingsregels") as any).update(regelData).eq("id", regelId)
 
-  if (error) return { error: error.message }
+  if (error) {
+    console.error("Update boekingsregel error:", error)
+    return { error: error.message || "Fout bij bijwerken van transactie" }
+  }
 
   revalidatePath(`/dashboard/clients/${clientId}/boekingsregels`)
   return { success: true }
@@ -129,9 +144,24 @@ export async function updateBoekingsregel(regelId: string, clientId: string, for
 export async function deleteBoekingsregel(regelId: string, clientId: string) {
   const supabase = await getSupabaseServerClient()
 
+  // Verify the regel belongs to the client (security check)
+  const { data: regel, error: checkError } = await supabase
+    .from("boekingsregels")
+    .select("id, client_id")
+    .eq("id", regelId)
+    .eq("client_id", clientId)
+    .single()
+
+  if (checkError || !regel) {
+    return { error: "Transactie niet gevonden of geen toegang" }
+  }
+
   const { error } = await supabase.from("boekingsregels").delete().eq("id", regelId)
 
-  if (error) return { error: error.message }
+  if (error) {
+    console.error("Delete boekingsregel error:", error)
+    return { error: error.message || "Fout bij verwijderen van transactie" }
+  }
 
   revalidatePath(`/dashboard/clients/${clientId}/boekingsregels`)
   return { success: true }

@@ -229,7 +229,7 @@ export function EditableBoekingsregelsTable({ boekingsregels, clientId }: Editab
   const handleDelete = async (id: string) => {
     setLoading(true)
     try {
-      const result = await deleteBoekingsregel(clientId, id)
+      const result = await deleteBoekingsregel(id, clientId)
 
       if (result?.error) {
         toast.error("Fout bij verwijderen", {
